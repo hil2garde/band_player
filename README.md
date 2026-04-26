@@ -1,111 +1,68 @@
-# 🎸 Cephalophoria Launcher
+# 🎸 Band Player
 
-Script PowerShell pour ouvrir rapidement les fichiers de travail du groupe (tabs, projets DAW, notes, etc.).
+Script PowerShell pour ouvrir rapidement les fichiers de travail du groupe — tabs Guitar Pro, projets Reaper, notes, métronome.
 
-> Développé avec l'aide de Claude (Anthropic).
+> Développé avec l'aide de [Claude](https://claude.ai) (Anthropic).
 
-## Principales commandes 
+---
 
-- Ouvrir le dossier du groupe
+## Commandes
 
-```powershell
-band
-```
+| Commande | Effet |
+|---|---|
+| `band` | Ouvre le dossier du groupe |
+| `band <track>` | Ouvre `<track>.gp` + `<track>.rpp` |
+| `band <track> -gp` | Seulement le fichier Guitar Pro |
+| `band <track> -daw` | Seulement le projet Reaper |
+| `band all` | Tous les `.gp` |
+| `band all -daw` | Tous les `.rpp` |
+| `band notes` | Ouvre `notes.md` |
+| `band metro` | Ouvre le métronome en ligne |
+| `band help` | Affiche l'aide |
 
-- Ouvrir le fichier Guitar Pro (.gp) et le projet DAW (.rpp)
-```powershell
-band <track>
-```
-*ex : band sn → ouvre Spiritual Necrosis*
+### Convention
+`<track>` = code court du morceau, sans espaces, en minuscules.
+*ex : `sn` → Spiritual Necrosis, `pmd` → Post Mortem Decapitation*
 
-- Ouvrir uniquement le fichier Guitar Pro
-```powershell
-band <track> -gp
-```
-
-- Ouvrir uniquement le projet DAW (Reaper)
-```powershell
-band <track> -daw
-```
-
-- Ouvrir tous les fichiers Guitare Pro
-```powershell
-band all
-```
-
-- Ouvrir tous les projets DAW
-```powershell
-band all -daw
-```
-
-- Ouvrir les notes du groupe
-```
-band notes
-```
-
-- Ouvrir un métronome en ligne
-```powershell
-band metro
-```
-
-- Ouvre la liste des commande disponible 
-```powershell
-band help
-```
-
-###  Convention
-`<track>` = code court du morceau
-*ex: sn → Spiritual Necrosis*
-
-### 📁 Structure attendue
+### Structure attendue
 
 ```
-Cephalophoria/
+cephalophoria/
 ├── tabs/
 │   ├── sn.gp
-│   ├── xx.gp
-│
+│   ├── pmd.gp
 ├── daw/
 │   ├── sn.rpp
-│   ├── xx.rpp
-│
-├── notes.md
+│   ├── pmd.rpp
+└── notes.md
 ```
-sn → Spiritual Necrosis
 
-## 🎸 Installation
+---
+
+## Installation
 
 > Aucune connaissance en code requise. Suis les étapes dans l'ordre.
 
----
-
 ### 1. Prérequis
 
-- [Guitar Pro](https://www.guitar-pro.com/fr) installé
-- [Reaper](https://www.reaper.fm/) installé
-
----
+- [Guitar Pro](https://www.guitar-pro.com/fr)
+- [Reaper](https://www.reaper.fm/)
 
 ### 2. Copier les fichiers
 
-Place les fichiers suivants dans un dossier de ton choix.  
-*Exemple : `Documents\bandscript\`*
+Place ces fichiers dans un dossier de ton choix, par exemple `Documents\bandscript\` :
 
 ```
-bandscript\
+bandscript/
 ├── band_player.ps1
 ├── .env.example
 ```
 
----
+### 3. Créer ta configuration
 
-### 3. Créer ton fichier de configuration
-
-1. Dans le dossier `bandscript\`, fais un **clic droit** sur `.env.example`
-2. Choisis **Copier**, puis **Coller** dans le même dossier
-3. Renomme la copie en **`.env`** (supprime le `.example`)
-4. Ouvre `.env` avec le **Bloc-notes**
-5. Remplace les chemins par les tiens :
+1. Fais un **clic droit** sur `.env.example` → **Copier** → **Coller** dans le même dossier
+2. Renomme la copie en **`.env`** (supprime le `.example`)
+3. Ouvre `.env` avec le Bloc-notes et remplace les chemins par les tiens :
 
 ```properties
 BAND_NAME=cephalophoria
@@ -116,109 +73,57 @@ NOTES_FILE=C:\Users\TonPrénom\Desktop\cephalophoria\notes.md
 METRO_URL=https://www.metronome-en-ligne.com/
 ```
 
-> 💡 Pour trouver ton prénom dans le chemin : ouvre l'Explorateur de fichiers,  
-> clique sur **Ce PC** → **Bureau**. La barre d'adresse affiche le bon chemin.
+> 💡 Pour trouver `TonPrénom` : ouvre l'Explorateur → Ce PC → Bureau. Le chemin s'affiche dans la barre d'adresse.
 
-6. **Sauvegarde** le fichier (`Ctrl+S`)
+4. Sauvegarde (`Ctrl+S`)
 
----
+### 4. Autoriser PowerShell à lancer des scripts
 
-### 4. Structure des dossiers
+> Une seule fois sur ta machine.
 
-Ton dossier du groupe doit ressembler à ça :
-
-```
-cephalophoria\
-├── tabs\
-│   ├── sn.gp
-│   ├── pmd.gp
-│
-├── daw\
-│   ├── sn.rpp
-│   ├── pmd.rpp
-│
-├── notes.md
-```
-
-> 💡 Le nom des fichiers = le code du morceau. Pas d'espaces, tout en minuscules.  
-> *ex : `sn` pour Spiritual Necrosis, `pmd` pour Post Mortem Decapitation*
-
----
-
-### 5. Autoriser PowerShell à lancer des scripts
-
-> Cette étape est nécessaire une seule fois sur ta machine.
-
-1. Clique sur le menu **Démarrer**
-2. Tape `powershell` et fais **clic droit** → **Exécuter en tant qu'administrateur**
-3. Colle cette commande et appuie sur **Entrée** :
+1. Menu **Démarrer** → tape `powershell` → **clic droit** → **Exécuter en tant qu'administrateur**
+2. Colle cette commande :
 
 ```powershell
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
-4. Tape `O` pour confirmer, puis **Entrée**
-5. Ferme cette fenêtre
+3. Tape `O` pour confirmer → ferme la fenêtre
 
----
+### 5. Ajouter la commande `band`
 
-### 6. Ajouter la commande `band`
-
-1. Ouvre **PowerShell** normalement (sans administrateur)
-2. Tape cette commande et appuie sur **Entrée** :
+1. Ouvre PowerShell normalement et tape :
 
 ```powershell
 notepad $PROFILE
 ```
 
-3. Si le Bloc-notes demande de créer le fichier, clique **Oui**
-4. Ajoute ces lignes à la fin du fichier :
+2. Si le Bloc-notes demande de créer le fichier, clique **Oui**
+3. Ajoute cette ligne à la fin (en remplaçant `TonPrénom`) :
 
 ```powershell
 function band { & "C:\Users\TonPrénom\Documents\bandscript\band_player.ps1" @args }
 ```
 
-> ⚠️ Remplace `TonPrénom` par ton vrai nom d'utilisateur.
-
-5. **Sauvegarde** (`Ctrl+S`) et ferme le Bloc-notes
-6. Dans PowerShell, tape :
+4. Sauvegarde (`Ctrl+S`) et ferme le Bloc-notes
+5. Recharge le profile :
 
 ```powershell
 . $PROFILE
 ```
 
----
-
-### 7. Tester
-
-Dans PowerShell, tape :
+### 6. Tester
 
 ```powershell
 band help
 ```
 
-Tu dois voir la liste des commandes disponibles. C'est bon ! 🎉
+Tu dois voir la liste des commandes. C'est bon ! 🎉
 
 ---
 
-### Commandes disponibles
+## En cas de problème
 
-| Commande          | Effet                              |
-|-------------------|------------------------------------|
-| `band`            | Ouvre le dossier du groupe         |
-| `band code_track`         | Ouvre `code_track.gp` + `code_track.rpp`          |
-| `band code_track -gp`     | Seulement `code_track.gp`                  |
-| `band code_track -daw`    | Seulement `code_track.rpp`                 |
-| `band all`        | Tous les `.gp`                     |
-| `band all -daw`   | Tous les `.rpp`                    |
-| `band notes`      | Ouvre `notes.md`                   |
-| `band metro`      | Ouvre le métronome en ligne        |
-| `band help`       | Affiche cette aide                 |
-
----
-
-### En cas de problème
-
-- **"band n'est pas reconnu"** → relis l'étape 6, vérifie le chemin vers `band_player.ps1`
-- **"Fichier introuvable"** → vérifie les chemins dans ton `.env` et le nom de tes fichiers `.gp`
-- **Le script ne se lance pas** → relis l'étape 5 (autorisation PowerShell)
+- **"band n'est pas reconnu"** → vérifie le chemin vers `band_player.ps1` dans le profile (étape 5)
+- **"Fichier introuvable"** → vérifie les chemins dans ton `.env` et les noms de tes fichiers
+- **Le script ne se lance pas** → relis l'étape 4 (autorisation PowerShell)
