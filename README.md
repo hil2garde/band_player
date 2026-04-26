@@ -71,9 +71,17 @@ GP_FOLDER=C:\Users\TonPrénom\Desktop\cephalophoria\tabs
 DAW_FOLDER=C:\Users\TonPrénom\Desktop\cephalophoria\daw
 NOTES_FILE=C:\Users\TonPrénom\Desktop\cephalophoria\notes.md
 METRO_URL=https://www.metronome-en-ligne.com/
+GP_VERSION=GuitarPro7
 ```
 
 > 💡 Pour trouver `TonPrénom` : ouvre l'Explorateur → Ce PC → Bureau. Le chemin s'affiche dans la barre d'adresse.
+
+> 💡 Pour trouver ta version de Guitar Pro : ouvre PowerShell et tape :
+> ```powershell
+> Get-Process | Where-Object { $_.Name -like "*guitar*" }
+> ```
+> La colonne `ProcessName` affiche le nom exact à copier dans `GP_VERSION`.
+> *ex : `GuitarPro7`, `GuitarPro8`...*
 
 4. Sauvegarde (`Ctrl+S`)
 

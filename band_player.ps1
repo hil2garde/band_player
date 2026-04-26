@@ -27,7 +27,12 @@ function Open-File($path, $label) {
     if ($path -and (Test-Path $path)) {
         Write-Host "✅ $label" -ForegroundColor Green
         Start-Process $path
-        Start-Sleep -Milliseconds 800
+        Start-Sleep -Milliseconds 500
+        do {
+            $cpu  = (Get-Process -Name $GP_VERSION -ErrorAction SilentlyContinue).CPU
+            Start-Sleep -Milliseconds 300
+            $cpu2 = (Get-Process -Name $GP_VERSION -ErrorAction SilentlyContinue).CPU
+        } until ($cpu -eq $cpu2)
     } else {
         Write-Host "❌ Echec : $label" -ForegroundColor Red
         Write-Host "   $path" -ForegroundColor DarkGray
