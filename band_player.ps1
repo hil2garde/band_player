@@ -27,7 +27,8 @@ function Open-File($path, $label) {
     if ($path -and (Test-Path $path)) {
         Write-Host "✅ $label" -ForegroundColor Green
         Start-Process $path
-    } else {
+    }
+    else {
         Write-Host "❌ Echec : $label" -ForegroundColor Red
         Write-Host "   $path" -ForegroundColor DarkGray
     }
@@ -36,7 +37,8 @@ function Open-File($path, $label) {
 function Open-Folder($path) {
     if (Test-Path $path) {
         Start-Process explorer.exe $path
-    } else {
+    }
+    else {
         Write-Warning "Dossier introuvable : $path"
     }
 }
@@ -44,7 +46,7 @@ function Open-Folder($path) {
 # ----------------------------------------------------------
 # Resolution du mode (gp / daw / les deux par defaut)
 # ----------------------------------------------------------
-$openGp  = $gp  -or (-not $gp -and -not $daw)
+$openGp = $gp -or (-not $gp -and -not $daw)
 $openDaw = $daw -or (-not $gp -and -not $daw)
 
 # ----------------------------------------------------------
@@ -82,15 +84,16 @@ switch ($Track.ToLower()) {
     }
 
     "all" {
-        Write-Host "Ouverture ALL - $BAND_NAME" -ForegroundColor Yellow        if ($openGp) {
+        Write-Host "Ouverture ALL - $BAND_NAME" -ForegroundColor Yellow        
+        if ($openGp) {
             Write-Host "[GP]" -ForegroundColor Cyan
             Get-ChildItem -Path $GP_FOLDER -Filter "*.gp" -ErrorAction SilentlyContinue |
-                ForEach-Object { Open-File $_.FullName "$($_.BaseName.ToUpper()) - $BAND_NAME" }
+            ForEach-Object { Open-File $_.FullName "$($_.BaseName.ToUpper()) - $BAND_NAME" }
         }
         if ($openDaw) {
             Write-Host "[DAW]" -ForegroundColor Cyan
             Get-ChildItem -Path $DAW_FOLDER -Filter "*.rpp" -ErrorAction SilentlyContinue |
-                ForEach-Object { Open-File $_.FullName "$($_.BaseName.ToUpper()) - $BAND_NAME" }
+            ForEach-Object { Open-File $_.FullName "$($_.BaseName.ToUpper()) - $BAND_NAME" }
         }
         exit
     }
